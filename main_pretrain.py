@@ -10,7 +10,7 @@ from dataset.data_public import *
 
 # =========== Different algorithmic frameworks ===========
 from network.MoCo import MoCo
-# from network.SimCLR import SimCLR
+from network.SimCLR import SimCLR
 # from network.BYOL import BYOL
 
 import random
@@ -91,7 +91,7 @@ def train(train_loader, model, optimizer, lr_schedule, epoch, iteration_per_epoc
 
         # print('labels: ', labels)
         if len(ims) == 2:
-            if args.name == 'moco':
+            if args.name in ['moco', 'simclr']:
                 loss = model(ims[0], ims[1], labels=labels)
                 purity = torch.tensor(-1.0)
 
@@ -171,7 +171,7 @@ def main():
     if args.name == 'moco':
         model = MoCo(dataset=args.dataset, K=args.queue_size, momentum=args.momentum, tem=args.tem, symmetric=args.symmetric)
     elif args.name == 'simclr':
-        pass
+        model = SimCLR(dataset=args.dataset, tem=args.tem, symmetric=args.symmetric)
     elif args.name == 'byol':
         pass
     else:
@@ -279,14 +279,12 @@ def main():
 
     model.train()
     best_acc = 0
-    # best_purity = 0
+
     for epoch in range(start_epoch, args.epochs):
         train_loss, purity_ave, epoch_time, lr_ave = train(train_loader, model, optimizer, lr_schedule, epoch, iteration_per_epoch, args)
         cur_acc = online_test(model.net, memory_loader, test_loader, args)
         if cur_acc > best_acc:
             best_acc = cur_acc
-        # if purity_ave > best_purity:
-        #     best_purity = purity_ave
         print(
             f'Epoch [{epoch}/{args.epochs}]: 200-NN-Best: {best_acc:.2f}, 200-NN: {cur_acc:.2f}, '
             f'Purity: {purity_ave:.4f}, loss: {train_loss:.8f}, time: {epoch_time}, lr: {lr_ave:.4f}')

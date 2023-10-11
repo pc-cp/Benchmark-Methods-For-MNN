@@ -3,14 +3,14 @@ It mainly consists of fast reproduction of classical algorithms in the field of 
 
 
 ## Reproduced algorithms
-| Source                                       | Reference                                          | Algorithm | Experimental records | Checkpoint                                                                                               |
-|----------------------------------------------|----------------------------------------------------|-----------|----------------------|----------------------------------------------------------------------------------------------------------|
-| [CVPR'20](https://arxiv.org/abs/1911.05722)  | [code](https://github.com/facebookresearch/moco)   | MoCoV2    | cifar10_1            | [link-cifar10_1](https://drive.google.com/file/d/1hJldLukt0mphZlCBAcg6bbKzZ6U4Bjnj/view?usp=share_link)  |
+| Source                                       | Reference                                          | Algorithm | Experimental records       | Checkpoint                                                                                             |
+|----------------------------------------------|----------------------------------------------------|-----------|----------------------------|--------------------------------------------------------------------------------------------------------|
+| [CVPR'20](https://arxiv.org/abs/1911.05722)  | [code](https://github.com/facebookresearch/moco)   | MoCoV2    | cifar10_1/cifar100_1/tin_1 | [link-moco](https://drive.google.com/drive/folders/17tcUy1nWO4_KwTVWV-bwNo0gw59CHe_X?usp=share_link)   |
 
 ## Reproduced results
 | Method | CIFAR-10(200-NN) | CIFAR-10(Linear-evaluation) | CIFAR-100(200-NN) | CIFAR-100(Linear-evaluation) | Tiny-ImageNet(200-NN) | Tiny-ImageNet(Linear-evaluation) | 
 |--------|------------------|-----------------------------|-------------------|------------------------------|-----------------------|----------------------------------|
-| MoCoV2 | 87.82            | 89.56                       |                   |                              |                       |                                  |
+| MoCoV2 | 87.82            | 89.56                       |  57.29            | 62.47                        | 37.77                 |  46.38                           |
 
 ## Algorithms reproduced soon after
 | Source                                                                                                                                                                       | Reference                                                                      | Algorithm |
