@@ -11,7 +11,7 @@ from dataset.data_public import *
 # =========== Different algorithmic frameworks ===========
 from network.MoCo import MoCo
 from network.SimCLR import SimCLR
-# from network.BYOL import BYOL
+from network.BYOL import BYOL
 
 import random
 import math
@@ -91,7 +91,7 @@ def train(train_loader, model, optimizer, lr_schedule, epoch, iteration_per_epoc
 
         # print('labels: ', labels)
         if len(ims) == 2:
-            if args.name in ['moco', 'simclr']:
+            if args.name in ['moco', 'simclr', 'byol']:
                 loss = model(ims[0], ims[1], labels=labels)
                 purity = torch.tensor(-1.0)
 
@@ -173,6 +173,12 @@ def main():
     elif args.name == 'simclr':
         model = SimCLR(dataset=args.dataset, tem=args.tem, symmetric=args.symmetric)
     elif args.name == 'byol':
+        model = BYOL(dataset=args.dataset, momentum=args.momentum, symmetric=args.symmetric)
+    elif args.name == 'ressl':
+        pass
+    elif args.name == 'nnclr':
+        pass
+    elif args.name == 'msf':
         pass
     else:
         print('The algorithm does not exist.')
