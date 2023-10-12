@@ -12,6 +12,7 @@ from dataset.data_public import *
 from network.MoCo import MoCo
 from network.SimCLR import SimCLR
 from network.BYOL import BYOL
+from network.ReSSL import ReSSL
 
 import random
 import math
@@ -91,7 +92,7 @@ def train(train_loader, model, optimizer, lr_schedule, epoch, iteration_per_epoc
 
         # print('labels: ', labels)
         if len(ims) == 2:
-            if args.name in ['moco', 'simclr', 'byol']:
+            if args.name in ['moco', 'simclr', 'byol', 'ressl']:
                 loss = model(ims[0], ims[1], labels=labels)
                 purity = torch.tensor(-1.0)
 
@@ -175,7 +176,7 @@ def main():
     elif args.name == 'byol':
         model = BYOL(dataset=args.dataset, momentum=args.momentum, symmetric=args.symmetric)
     elif args.name == 'ressl':
-        pass
+        model = ReSSL(dataset=args.dataset, K=args.queue_size, momentum=args.momentum, tem=args.tem, symmetric=args.symmetric)
     elif args.name == 'nnclr':
         pass
     elif args.name == 'msf':

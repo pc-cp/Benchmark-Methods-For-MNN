@@ -137,3 +137,66 @@ echo "evaluating simclr(tin_2)"
 #--logdir tin_2 \
 #>linear_eval_output/tin_2_1 2>&1 &
 wait
+echo "pretrain byol(cifar10_3)"
+#nohup python main_pretrain.py \
+#--name byol \
+#--symmetric \
+#--momentum 0.99 \
+#--dataset cifar10 \
+#--aug_numbers 2 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar10_3 \
+#>pretrain_output/cifar10_3 2>&1 &
+wait
+echo "evaluating byol(cifar10_3)"
+#nohup python main_linear_eval.py \
+#--name byol \
+#--dataset cifar10 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar10_3 \
+#>linear_eval_output/cifar10_3_1 2>&1 &
+wait
+echo "pretrain byol(cifar100_3)"
+#nohup python main_pretrain.py \
+#--name byol \
+#--symmetric \
+#--momentum 0.99 \
+#--dataset cifar100 \
+#--aug_numbers 2 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar100_3 \
+#>pretrain_output/cifar100_3 2>&1 &
+wait
+echo "evaluating byol(cifar100_3)"
+#nohup python main_linear_eval.py \
+#--name byol \
+#--dataset cifar100 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar100_3 \
+#>linear_eval_output/cifar100_3_1 2>&1 &
+wait
+echo "pretrain byol(tin_3)"
+#nohup python main_pretrain.py \
+#--name byol \
+#--symmetric \
+#--momentum 0.996 \
+#--dataset tinyimagenet \
+#--aug_numbers 2 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir tin_3 \
+#>pretrain_output/tin_3 2>&1 &
+wait
+echo "evaluating byol(tin_3)"
+#nohup python main_linear_eval.py \
+#--name byol \
+#--dataset tinyimagenet \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir tin_3 \
+#>linear_eval_output/tin_3_1 2>&1 &
+wait
