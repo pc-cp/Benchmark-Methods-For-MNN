@@ -200,3 +200,73 @@ echo "evaluating byol(tin_3)"
 #--logdir tin_3 \
 #>linear_eval_output/tin_3_1 2>&1 &
 wait
+
+echo "pretrain ressl(cifar10_4)"
+#nohup python main_pretrain.py \
+#--name ressl \
+#--tem 0.04 \
+#--momentum 0.99 \
+#--dataset cifar10 \
+#--aug_numbers 2 \
+#--weak \
+#--queue_size 4096 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar10_4 \
+#>pretrain_output/cifar10_4 2>&1 &
+wait
+echo "evaluating ressl(cifar10_4)"
+#nohup python main_linear_eval.py \
+#--name ressl \
+#--dataset cifar10 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar10_4 \
+#>linear_eval_output/cifar10_4_1 2>&1 &
+wait
+echo "pretrain ressl(cifar100_4)"
+#nohup python main_pretrain.py \
+#--name ressl \
+#--tem 0.04 \
+#--momentum 0.99 \
+#--dataset cifar100 \
+#--aug_numbers 2 \
+#--weak \
+#--queue_size 4096 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar100_4 \
+#>pretrain_output/cifar100_4 2>&1 &
+wait
+echo "evaluating ressl(cifar100_4)"
+#nohup python main_linear_eval.py \
+#--name ressl \
+#--dataset cifar100 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar100_4 \
+#>linear_eval_output/cifar100_4_1 2>&1 &
+wait
+echo "pretrain ressl(tin_4)"
+#nohup python main_pretrain.py \
+#--name ressl \
+#--tem 0.04 \
+#--momentum 0.996 \
+#--dataset tinyimagenet \
+#--aug_numbers 2 \
+#--weak \
+#--queue_size 16384 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir tin_4 \
+#>pretrain_output/tin_4 2>&1 &
+wait
+echo "evaluating ressl(tin_4)"
+#nohup python main_linear_eval.py \
+#--name ressl \
+#--dataset tinyimagenet \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir tin_4 \
+#>linear_eval_output/tin_4_1 2>&1 &
+wait

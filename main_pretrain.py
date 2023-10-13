@@ -13,14 +13,12 @@ from network.MoCo import MoCo
 from network.SimCLR import SimCLR
 from network.BYOL import BYOL
 from network.ReSSL import ReSSL
+from network.NNCLR import NNCLR
 
-import random
-import math
 import argparse
 import os
 import time
 import datetime
-# import tqdm
 
 def get_args_parser():
     parser = argparse.ArgumentParser('Pretrain pipeline', add_help=False)
@@ -95,6 +93,10 @@ def train(train_loader, model, optimizer, lr_schedule, epoch, iteration_per_epoc
             if args.name in ['moco', 'simclr', 'byol', 'ressl']:
                 loss = model(ims[0], ims[1], labels=labels)
                 purity = torch.tensor(-1.0)
+            elif args.name in ['nnclr']:
+                loss, purity = model(ims[0], ims[1], labels=labels)
+            else:
+                pass
 
         # record loss and learning rate
         ce_losses.update(loss.item(), ims[0].size(0))
@@ -178,7 +180,7 @@ def main():
     elif args.name == 'ressl':
         model = ReSSL(dataset=args.dataset, K=args.queue_size, momentum=args.momentum, tem=args.tem, symmetric=args.symmetric)
     elif args.name == 'nnclr':
-        pass
+        model = NNCLR(dataset=args.dataset, K=args.queue_size, topk=args.topk, tem=args.tem, symmetric=args.symmetric)
     elif args.name == 'msf':
         pass
     else:

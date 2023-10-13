@@ -21,6 +21,31 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import os
 
+def generation_mask(topk, batch):
+    """Pseudo label generation for the introduction of top-k nearest neighbor methods.
+        This code was taken and adapted from here:
+        ###
+
+        Args:
+            topk:
+                Number of neighbors
+            batch:
+                batch_size
+
+        Returns:
+            mask:
+                Pseudo-labeling with dimensions [batch, batch*topk]
+    Examples:
+    >>> generation_mask(2, 3)
+    Out[5]:
+    tensor([[1., 1., 0., 0., 0., 0.],
+            [0., 0., 1., 1., 0., 0.],
+            [0., 0., 0., 0., 1., 1.]])
+    """
+    mask_ = torch.eye(batch)
+    mask = mask_.repeat(topk, 1).reshape(topk, batch, -1).permute(2, 1, 0).reshape(batch, topk * batch)
+    return mask
+
 def tsne_plot(save_dir, targets, outputs, epoch):
     print('generating t-SNE plot...')
     tsne = TSNE(random_state=epoch)
