@@ -270,3 +270,143 @@ echo "evaluating ressl(tin_4)"
 #--logdir tin_4 \
 #>linear_eval_output/tin_4_1 2>&1 &
 wait
+
+echo "pretrain nnclr(cifar10_5)"
+#nohup python main_pretrain.py \
+#--name nnclr \
+#--symmetric \
+#--tem 0.2 \
+#--dataset cifar10 \
+#--aug_numbers 2 \
+#--queue_size 4096 \
+#--topk 1 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar10_5 \
+#>pretrain_output/cifar10_5 2>&1 &
+wait
+echo "evaluating nnclr(cifar10_5)"
+#nohup python main_linear_eval.py \
+#--name nnclr \
+#--dataset cifar10 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar10_5 \
+#>linear_eval_output/cifar10_5_1 2>&1 &
+wait
+echo "pretrain nnclr(cifar100_5)"
+#nohup python main_pretrain.py \
+#--name nnclr \
+#--symmetric \
+#--tem 0.2 \
+#--dataset cifar100 \
+#--aug_numbers 2 \
+#--queue_size 4096 \
+#--topk 1 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar100_5 \
+#>pretrain_output/cifar100_5 2>&1 &
+wait
+echo "evaluating nnclr(cifar100_5)"
+#nohup python main_linear_eval.py \
+#--name nnclr \
+#--dataset cifar100 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar100_5 \
+#>linear_eval_output/cifar100_5_1 2>&1 &
+wait
+echo "pretrain nnclr(tin_5)"
+#nohup python main_pretrain.py \
+#--name nnclr \
+#--symmetric \
+#--tem 0.2 \
+#--dataset tinyimagenet \
+#--aug_numbers 2 \
+#--queue_size 16384 \
+#--topk 1 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir tin_5 \
+#>pretrain_output/tin_5 2>&1 &
+wait
+echo "evaluating nnclr(tin_5)"
+#nohup python main_linear_eval.py \
+#--name nnclr \
+#--dataset tinyimagenet \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir tin_5 \
+#>linear_eval_output/tin_5_1 2>&1 &
+wait
+
+echo "pretrain nnclr(cifar10_5a)"
+#nohup python main_pretrain.py \
+#--name nnclr \
+#--symmetric \
+#--tem 0.2 \
+#--dataset cifar10 \
+#--aug_numbers 2 \
+#--queue_size 4096 \
+#--topk 5 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar10_5a \
+#>pretrain_output/cifar10_5a 2>&1 &
+wait
+echo "evaluating nnclr(cifar10_5a)"
+#nohup python main_linear_eval.py \
+#--name nnclr \
+#--dataset cifar10 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar10_5a \
+#>linear_eval_output/cifar10_5a_1 2>&1 &
+wait
+echo "pretrain nnclr(cifar100_5a)"
+#nohup python main_pretrain.py \
+#--name nnclr \
+#--symmetric \
+#--tem 0.2 \
+#--dataset cifar100 \
+#--aug_numbers 2 \
+#--queue_size 4096 \
+#--topk 5 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar100_5a \
+#>pretrain_output/cifar100_5a 2>&1 &
+wait
+echo "evaluating nnclr(cifar100_5a)"
+#nohup python main_linear_eval.py \
+#--name nnclr \
+#--dataset cifar100 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar100_5a \
+#>linear_eval_output/cifar100_5a_1 2>&1 &
+wait
+echo "pretrain nnclr(tin_5a)"
+#nohup python main_pretrain.py \
+#--name nnclr \
+#--symmetric \
+#--tem 0.2 \
+#--dataset tinyimagenet \
+#--aug_numbers 2 \
+#--queue_size 16384 \
+#--topk 5 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir tin_5a \
+#>pretrain_output/tin_5a 2>&1 &
+wait
+echo "evaluating nnclr(tin_5a)"
+#nohup python main_linear_eval.py \
+#--name nnclr \
+#--dataset tinyimagenet \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir tin_5a \
+#>linear_eval_output/tin_5a_1 2>&1 &
+wait

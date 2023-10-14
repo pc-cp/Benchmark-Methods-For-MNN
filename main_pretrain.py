@@ -14,6 +14,8 @@ from network.SimCLR import SimCLR
 from network.BYOL import BYOL
 from network.ReSSL import ReSSL
 from network.NNCLR import NNCLR
+from network.MSF import MSF
+
 
 import argparse
 import os
@@ -93,7 +95,7 @@ def train(train_loader, model, optimizer, lr_schedule, epoch, iteration_per_epoc
             if args.name in ['moco', 'simclr', 'byol', 'ressl']:
                 loss = model(ims[0], ims[1], labels=labels)
                 purity = torch.tensor(-1.0)
-            elif args.name in ['nnclr']:
+            elif args.name in ['nnclr', 'msf']:
                 loss, purity = model(ims[0], ims[1], labels=labels)
             else:
                 pass
@@ -182,7 +184,7 @@ def main():
     elif args.name == 'nnclr':
         model = NNCLR(dataset=args.dataset, K=args.queue_size, topk=args.topk, tem=args.tem, symmetric=args.symmetric)
     elif args.name == 'msf':
-        pass
+        model = MSF(dataset=args.dataset, K=args.queue_size, momentum=args.momentum, topk=args.topk, symmetric=args.symmetric)
     else:
         print('The algorithm does not exist.')
 
