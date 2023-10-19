@@ -1,11 +1,9 @@
-import torch.nn as nn
 from network.base_model import ModelBase_ResNet18
 from network.heads import (
     MoCoProjectionHead
 )
 import copy
 from util.MemoryBankModule import MemoryBankModule
-import torch.nn.functional as F
 from util.utils import *
 class MoCo(nn.Module):
     def __init__(self, dim=128, K=4096, tem=0.1, momentum=0.99, dataset='cifar10', bn_splits=8, symmetric=False):

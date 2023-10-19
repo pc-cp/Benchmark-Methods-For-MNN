@@ -556,3 +556,77 @@ echo "evaluating snclr(tin_7)"
 #--logdir tin_7 \
 #>linear_eval_output/tin_7_1 2>&1 &
 wait
+
+echo "pretrain sce(cifar10_8)"
+#nohup python main_pretrain.py \
+#--name sce \
+#--symmetric \
+#--tem 0.05 \
+#--momentum 0.99 \
+#--dataset cifar10 \
+#--aug_numbers 2 \
+#--weak \
+#--queue_size 4096 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar10_8 \
+#>pretrain_output/cifar10_8 2>&1 &
+wait
+echo "evaluating sce(cifar10_8)"
+#nohup python main_linear_eval.py \
+#--name sce \
+#--dataset cifar10 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar10_8 \
+#>linear_eval_output/cifar10_8_1 2>&1 &
+wait
+echo "pretrain sce(cifar100_8)"
+#nohup python main_pretrain.py \
+#--name sce \
+#--symmetric \
+#--tem 0.05 \
+#--momentum 0.99 \
+#--dataset cifar100 \
+#--aug_numbers 2 \
+#--weak \
+#--queue_size 4096 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar100_8 \
+#>pretrain_output/cifar100_8 2>&1 &
+wait
+echo "evaluating sce(cifar100_8)"
+#nohup python main_linear_eval.py \
+#--name sce \
+#--dataset cifar100 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar100_8 \
+#>linear_eval_output/cifar100_8_1 2>&1 &
+wait
+echo "pretrain sce(tin_8)"
+#nohup python main_pretrain.py \
+#--name sce \
+#--symmetric \
+#--tem 0.05 \
+#--momentum 0.996 \
+#--dataset tinyimagenet \
+#--aug_numbers 2 \
+#--weak \
+#--queue_size 16384 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir tin_8 \
+#>pretrain_output/tin_8 2>&1 &
+wait
+echo "evaluating sce(tin_8)"
+#nohup python main_linear_eval.py \
+#--name sce \
+#--dataset tinyimagenet \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir tin_8 \
+#>linear_eval_output/tin_8_1 2>&1 &
+wait
+

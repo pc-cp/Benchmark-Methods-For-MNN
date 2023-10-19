@@ -5,6 +5,7 @@ import torch.nn.functional as F
 from util.meter import *
 from util.utils import *
 from dataset import data_two
+from dataset import data_three
 from dataset.data_public import *
 
 # =========== Different algorithmic frameworks ===========
@@ -15,6 +16,8 @@ from network.ReSSL import ReSSL
 from network.NNCLR import NNCLR
 from network.MSF import MSF
 from network.SNCLR import SNCLR
+from network.SCE import SCE
+from network.CMSF import CMSF
 
 import argparse
 import os
@@ -91,11 +94,16 @@ def train(train_loader, model, optimizer, lr_schedule, epoch, iteration_per_epoc
 
         # print('labels: ', labels)
         if len(ims) == 2:
-            if args.name in ['moco', 'simclr', 'byol', 'ressl']:
+            if args.name in ['moco', 'simclr', 'byol', 'ressl', 'sce']:
                 loss = model(ims[0], ims[1], labels=labels)
                 purity = torch.tensor(-1.0)
             elif args.name in ['nnclr', 'msf', 'snclr']:
                 loss, purity = model(ims[0], ims[1], labels=labels)
+            else:
+                pass
+        if len(ims) == 3:
+            if args.name in ['cmsf']:
+                loss, purity = model(ims[0], ims[1], ims[2], labels=labels)
             else:
                 pass
 
@@ -186,6 +194,10 @@ def main():
         model = MSF(dataset=args.dataset, K=args.queue_size, momentum=args.momentum, topk=args.topk, symmetric=args.symmetric)
     elif args.name == 'snclr':
         model = SNCLR(dataset=args.dataset, K=args.queue_size, momentum=args.momentum, topk=args.topk, tem=args.tem, symmetric=args.symmetric, threshold=args.threshold)
+    elif args.name == 'sce':
+        model = SCE(dataset=args.dataset, K=args.queue_size, momentum=args.momentum, tem=args.tem, symmetric=args.symmetric)
+    elif args.name == 'cmsf':
+        model = CMSF(dataset=args.dataset, K=args.queue_size, momentum=args.momentum, topk=args.topk,  symmetric=args.symmetric)
     else:
         print('The algorithm does not exist.')
 
@@ -231,16 +243,16 @@ def main():
         args.num_classes = 10
     elif args.dataset == 'tinyimagenet':
         if args.weak:
-            dataset = eval(aug + 'TinyImageNet')(root=args.data_path + '/tiny-imagenet-200', train=True,
+            dataset = TinyImageNet(root=args.data_path + '/tiny-imagenet-200', train=True,
                                                  transform=eval(aug + crop)(get_contrastive_augment('tinyimagenet'),
                                                                             get_weak_augment('tinyimagenet')))
         else:
-            dataset = eval(aug + 'TinyImageNet')(root=args.data_path + '/tiny-imagenet-200', train=True,
+            dataset = TinyImageNet(root=args.data_path + '/tiny-imagenet-200', train=True,
                                                  transform=eval(aug + crop)(get_contrastive_augment('tinyimagenet'),
                                                                             get_contrastive_augment('tinyimagenet')))
-        memory_dataset = eval(aug + 'TinyImageNet')(root=args.data_path + '/tiny-imagenet-200', train=True,
+        memory_dataset = TinyImageNet(root=args.data_path + '/tiny-imagenet-200', train=True,
                                                     transform=get_test_augment('tinyimagenet'))
-        test_dataset = eval(aug + 'TinyImageNet')(root=args.data_path + '/tiny-imagenet-200', train=False,
+        test_dataset = TinyImageNet(root=args.data_path + '/tiny-imagenet-200', train=False,
                                                   transform=get_test_augment('tinyimagenet'))
         args.num_classes = 200
     else:
