@@ -27,6 +27,7 @@ It mainly consists of fast reproduction of classical algorithms in the field of 
 | [ICCV'21](https://arxiv.org/abs/2105.07269)    | [code](https://github.com/UMBCvision/MSF)                                     | MSF       | cifar10_6/cifar100_6/tin_6, topk=5, weak | [link-msf](https://drive.google.com/drive/folders/16FfJPM59G5fr2i43Uua9XXtaE8q72t1K?usp=sharing)      |
 | [ICLR'23](https://arxiv.org/abs/2303.17142)    | [code](https://github.com/ChongjianGE/SNCLR)                                  | SNCLR     | cifar10_7/cifar100_7/tin_7, topk=5       | [link-snclr](https://drive.google.com/drive/folders/1XH_nh1ToQatNdB8MkF_db_MInLsCRQGh?usp=sharing)    |
 | [WACV'23](https://arxiv.org/abs/2111.14585)    | [code](https://github.com/CEA-LIST/SCE)                                       | SCE       | cifar10_8/cifar100_8/tin_8               | [link-sce](https://drive.google.com/drive/folders/19akqdMiDw-2MgOUzBfeb5OxQmJzLxqPW?usp=sharing)      |
+| [ECCV'22](https://arxiv.org/abs/2112.04607)    | [code](https://github.com/UCDvision/CMSF)                                     | CMSF      | cifar10_9/cifar100_9/tin_9               | [link-cmsf](https://drive.google.com/drive/folders/15o1k8YTxTdScUYYp_hRyXKubToqeCzHJ?usp=sharing)     |
 
 ## Reproduced results
 It is worth noting that the results reported by **MoCoV2, SimCLR, and BYOL** may be **somewhat high**, and you can refer to the results reported in this paper [ReSSL](https://arxiv.org/abs/2107.09282) for comparison.
@@ -42,9 +43,9 @@ It is worth noting that the results reported by **MoCoV2, SimCLR, and BYOL** may
 | MSF(topk=5)   | 88.24-0.83       | 89.94                       | 52.32-0.35        | 59.94                        | 35.29-0.20            | 42.68                            |
 | SNCLR(topk=5) | 87.36-0.82       | 88.86                       | 58.65-0.48        | 65.19                        | 41.92-0.33            | 50.15                            |
 | SCE           | 88.54            | 89.71                       | 59.97             | 64.85                        | 40.48                 | 48.50                            |
+| CMSF          | 89.30-0.85       | 91.00                       | 55.57-0.39        | 62.37                        | 36.79-0.23            | 44.50                            |
 
 ## Algorithms reproduced soon after
 | Source                                       | Reference                                   | Algorithm |
 |----------------------------------------------|---------------------------------------------|-----------|
-| [ECCV'22](https://arxiv.org/abs/2112.04607)  | [code](https://github.com/UCDvision/CMSF)   | CMSF      |
 | [AAAI'22](https://arxiv.org/abs/2003.05438)  | [code](https://github.com/szq0214/Un-Mix)   | UnMix     |

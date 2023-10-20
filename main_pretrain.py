@@ -99,6 +99,26 @@ def train(train_loader, model, optimizer, lr_schedule, epoch, iteration_per_epoc
                 purity = torch.tensor(-1.0)
             elif args.name in ['nnclr', 'msf', 'snclr']:
                 loss, purity = model(ims[0], ims[1], labels=labels)
+            elif args.name in ['unmix']:
+                r = np.random.rand(1)
+                beta = 1.0
+                lam = np.random.beta(beta, beta)
+                images_reverse = torch.flip(ims[1], (0,))
+                if r < 0.5: # mixup
+                    mixed_images = lam * ims[1] + (1 - lam) * images_reverse
+                    mixed_images_flip = torch.flip(mixed_images, (0,))
+                else:   # cutmix
+                    mixed_images = ims[1].clone()
+                    bbx1, bby1, bbx2, bby2 = rand_bbox(ims[1].size(), lam)
+                    mixed_images[:, :, bbx1:bbx2, bby1:bby2] = images_reverse[:, :, bbx1:bbx2, bby1:bby2]
+                    mixed_images_flip = torch.flip(mixed_images, (0,))
+                    # # adjust lambda to exactly match pixel ratio
+                    lam = 1 - ((bbx2 - bbx1) * (bby2 - bby1) / (ims[1].size()[-1] * ims[1].size()[-2]))
+
+                loss = model(ims[0], ims[1], labels=labels)
+                loss_mix = model(ims[0], mixed_images, labels=labels)
+                loss_mix_flip = model(ims[0], mixed_images_flip, labels=labels)
+                loss = loss + lam * loss_mix + (1 - lam) * loss_mix_flip
             else:
                 pass
         if len(ims) == 3:
@@ -198,6 +218,8 @@ def main():
         model = SCE(dataset=args.dataset, K=args.queue_size, momentum=args.momentum, tem=args.tem, symmetric=args.symmetric)
     elif args.name == 'cmsf':
         model = CMSF(dataset=args.dataset, K=args.queue_size, momentum=args.momentum, topk=args.topk,  symmetric=args.symmetric)
+    elif args.name == 'unmix':
+        model = BYOL(dataset=args.dataset, momentum=args.momentum, symmetric=args.symmetric)
     else:
         print('The algorithm does not exist.')
 

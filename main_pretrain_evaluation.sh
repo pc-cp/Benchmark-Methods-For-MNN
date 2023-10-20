@@ -629,4 +629,75 @@ echo "evaluating sce(tin_8)"
 #--logdir tin_8 \
 #>linear_eval_output/tin_8_1 2>&1 &
 wait
-
+echo "pretrain cmsf(cifar10_9)"
+#nohup python main_pretrain.py \
+#--name cmsf \
+#--symmetric \
+#--momentum 0.99 \
+#--dataset cifar10 \
+#--aug_numbers 3 \
+#--weak \
+#--queue_size 4096 \
+#--topk 5 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar10_9 \
+#>pretrain_output/cifar10_9 2>&1 &
+wait
+echo "evaluating cmsf(cifar10_9)"
+#nohup python main_linear_eval.py \
+#--name cmsf \
+#--dataset cifar10 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar10_9 \
+#>linear_eval_output/cifar10_9_1 2>&1 &
+wait
+echo "pretrain cmsf(cifar100_9)"
+#nohup python main_pretrain.py \
+#--name cmsf \
+#--symmetric \
+#--momentum 0.99 \
+#--dataset cifar100 \
+#--aug_numbers 3 \
+#--weak \
+#--queue_size 4096 \
+#--topk 5 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar100_9 \
+#>pretrain_output/cifar100_9 2>&1 &
+wait
+echo "evaluating cmsf(cifar100_9)"
+#nohup python main_linear_eval.py \
+#--name cmsf \
+#--dataset cifar100 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar100_9 \
+#>linear_eval_output/cifar100_9_1 2>&1 &
+wait
+echo "pretrain cmsf(tin_9)"
+#nohup python main_pretrain.py \
+#--name cmsf \
+#--symmetric \
+#--momentum 0.996 \
+#--dataset tinyimagenet \
+#--aug_numbers 3 \
+#--weak \
+#--queue_size 16384 \
+#--topk 5 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir tin_9 \
+#>pretrain_output/tin_9 2>&1 &
+wait
+echo "evaluating cmsf(tin_9)"
+#nohup python main_linear_eval.py \
+#--name cmsf \
+#--dataset tinyimagenet \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir tin_9 \
+#>linear_eval_output/tin_9_1 2>&1 &
+wait
