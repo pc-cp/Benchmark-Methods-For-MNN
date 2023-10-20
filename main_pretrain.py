@@ -119,6 +119,7 @@ def train(train_loader, model, optimizer, lr_schedule, epoch, iteration_per_epoc
                 loss_mix = model(ims[0], mixed_images, labels=labels)
                 loss_mix_flip = model(ims[0], mixed_images_flip, labels=labels)
                 loss = loss + lam * loss_mix + (1 - lam) * loss_mix_flip
+                purity = torch.tensor(-1.0)
             else:
                 pass
         if len(ims) == 3:
