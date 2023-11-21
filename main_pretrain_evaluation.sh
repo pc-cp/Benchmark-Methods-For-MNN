@@ -701,3 +701,67 @@ echo "evaluating cmsf(tin_9)"
 #--logdir tin_9 \
 #>linear_eval_output/tin_9_1 2>&1 &
 wait
+
+echo "pretrain unmix(cifar10_10)"
+#nohup python main_pretrain.py \
+#--name unmix \
+#--symmetric \
+#--momentum 0.99 \
+#--dataset cifar10 \
+#--aug_numbers 2 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar10_10 \
+#>pretrain_output/cifar10_10 2>&1 &
+wait
+echo "evaluating unmix(cifar10_10)"
+#nohup python main_linear_eval.py \
+#--name unmix \
+#--dataset cifar10 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar10_10 \
+#>linear_eval_output/cifar10_10_1 2>&1 &
+wait
+echo "pretrain unmix(cifar100_10)"
+#nohup python main_pretrain.py \
+#--name unmix \
+#--symmetric \
+#--momentum 0.99 \
+#--dataset cifar100 \
+#--aug_numbers 2 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar100_10 \
+#>pretrain_output/cifar100_10 2>&1 &
+wait
+echo "evaluating unmix(cifar100_10)"
+#nohup python main_linear_eval.py \
+#--name unmix \
+#--dataset cifar100 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir cifar100_10 \
+#>linear_eval_output/cifar100_10_1 2>&1 &
+wait
+echo "pretrain unmix(tin_10)"
+#nohup python main_pretrain.py \
+#--name unmix \
+#--symmetric \
+#--momentum 0.996 \
+#--dataset tinyimagenet \
+#--aug_numbers 2 \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir tin_10 \
+#>pretrain_output/tin_10 2>&1 &
+wait
+echo "evaluating unmix(tin_10)"
+#nohup python main_linear_eval.py \
+#--name unmix \
+#--dataset tinyimagenet \
+#--gpuid 1 \
+#--seed 1339 \
+#--logdir tin_10 \
+#>linear_eval_output/tin_10_1 2>&1 &
+wait

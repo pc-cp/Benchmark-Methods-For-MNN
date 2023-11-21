@@ -64,12 +64,16 @@ class MoCo(nn.Module):
         update_momentum(model=self.net,             model_ema=self.backbone_momentum,        m=self.momentum)
         update_momentum(model=self.projection_head, model_ema=self.projection_head_momentum, m=self.momentum)
 
+        if self.symmetric:  # symmetric loss
+            loss_21 = self.contrastive_loss(im2, im1,  labels=labels, update=False)
+
+
         loss_12 = self.contrastive_loss(im1, im2, labels=labels, update=True)
         loss = loss_12
 
         # compute loss
         if self.symmetric:  # symmetric loss
-            loss_21 = self.contrastive_loss(im2, im1,  labels=labels, update=False)
+            # loss_21 = self.contrastive_loss(im2, im1,  labels=labels, update=False)
             loss = (loss_12 + loss_21)*1.0/2
 
         return loss

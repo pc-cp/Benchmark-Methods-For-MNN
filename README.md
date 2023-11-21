@@ -1,4 +1,29 @@
 # Mini-SSL
+## Updata(21,Nov, 2023)
+We fixed bugs in some algorithms (**MoCoV2, NNCLR, MSF, SNCLR, SCE, CMSF**) which as you can see were hidden deeper but had little impact on performance. The bug is that the samples in the batch are updated in the queue during the symmetric computation of the loss function
+The fix for this bug is to change clip 1 to clip 2:
+
+clip 1
+```python
+loss_12 = self.contrastive_loss(im1, im2, labels=labels, update=True)
+loss = loss_12
+if self.symmetric:  # symmetric loss
+    loss_21 = self.contrastive_loss(im2, im1,  labels=labels, update=False)
+    loss = (loss_12 + loss_21)*1.0/2
+```
+clip 2
+```python
+if self.symmetric:  # symmetric loss
+    loss_21 = self.contrastive_loss(im2, im1,  labels=labels, update=False)
+
+loss_12 = self.contrastive_loss(im1, im2, labels=labels, update=True)
+loss = loss_12
+
+# compute loss
+if self.symmetric:  # symmetric loss
+    # loss_21 = self.contrastive_loss(im2, im1,  labels=labels, update=False)
+    loss = (loss_12 + loss_21)*1.0/2
+```
 
 <picture>
   <source
@@ -35,16 +60,16 @@ It is worth noting that the results reported by **MoCoV2, SimCLR, and BYOL** may
 
 | Method        | CIFAR-10(200-NN) | CIFAR-10(Linear-evaluation) | CIFAR-100(200-NN) | CIFAR-100(Linear-evaluation) | Tiny-ImageNet(200-NN) | Tiny-ImageNet(Linear-evaluation) | 
 |---------------|------------------|-----------------------------|-------------------|------------------------------|-----------------------|----------------------------------|
-| MoCoV2        | 87.82            | 89.56                       | 57.29             | 62.47                        | 37.77                 | 46.38                            |
+| MoCoV2        | 88.05            | 89.70                       | 57.64             | 62.37                        | 37.29                 | 46.08                            |
 | SimCLR        | 85.30            | 87.72                       | 56.50             | 62.52                        | 37.16                 | 45.71                            |
 | BYOL          | 87.54            | 89.54                       | 57.24             | 63.16                        | 37.65                 | 45.29                            |
 | ReSSL         | 88.89            | 89.97                       | 57.48             | 63.82                        | 37.14                 | 46.38                            |
-| NNCLR(topk=1) | 85.19-0.81       | 87.72                       | 50.54-0.45        | 59.62                        | 30.93-0.30            | 41.52                            |
-| NNCLR(topk=5) | 86.98-0.81       | 88.83                       | 53.40-0.36        | 62.54                        | 34.99-0.19            | 44.42                            |
-| MSF(topk=5)   | 88.24-0.83       | 89.94                       | 52.32-0.35        | 59.94                        | 35.29-0.20            | 42.68                            |
-| SNCLR(topk=5) | 87.36-0.82       | 88.86                       | 58.65-0.48        | 65.19                        | 41.92-0.33            | 50.15                            |
-| SCE           | 88.54            | 89.71                       | 59.97             | 64.85                        | 40.48                 | 48.50                            |
-| CMSF          | 89.30-0.85       | 91.00                       | 55.57-0.39        | 62.37                        | 36.79-0.23            | 44.50                            |
+| NNCLR(topk=1) | 85.47            | 88.06                       | 50.99             | 60.53                        | 31.62                 | 41.70                            |
+| NNCLR(topk=5) | 86.78            | 88.80                       | 53.21             | 61.25                        | 34.44                 | 44.38                            |
+| MSF(topk=5)   | 87.86            | 89.60                       | 51.29             | 59.84                        | 34.79                 | 42.52                            |
+| SNCLR(topk=5) | 87.64            | 89.64                       | 58.57             | 65.45                        | 41.42                 | 49.62                            |
+| SCE           | 89.15            | 90.62                       | 60.17             | 64.93                        | 40.66                 | 48.63                            |
+| CMSF          | 88.95            | 90.63                       | 54.20             | 61.24                        | 35.97                 | 44.00                            |
 | UnMix         | 87.99            | 90.37                       | 59.11             | 65.30                        | 38.65                 | 47.29                            |
 
 ## Algorithms reproduced soon after

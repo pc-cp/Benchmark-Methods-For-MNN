@@ -118,12 +118,15 @@ class SNCLR(nn.Module):
         update_momentum(model=self.net,             model_ema=self.backbone_momentum,        m=self.momentum)
         update_momentum(model=self.projection_head, model_ema=self.projection_head_momentum, m=self.momentum)
 
+        if self.symmetric:  # symmetric loss
+            loss_21, purity_21 = self.contrastive_loss(im2, im1, update=False, labels=labels)
+
         loss_12, purity_12 = self.contrastive_loss(im1, im2, update=True, labels=labels)
         loss = loss_12
         purity = purity_12
         # compute loss
         if self.symmetric:  # symmetric loss
-            loss_21, purity_21 = self.contrastive_loss(im2, im1, update=False, labels=labels)
+            # loss_21, purity_21 = self.contrastive_loss(im2, im1, update=False, labels=labels)
             purity = (purity_12 + purity_21)*1.0/2
             loss = (loss_12 + loss_21)*1.0/2
 
