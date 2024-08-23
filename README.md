@@ -1,4 +1,4 @@
-# Mini-SSL
+# Benchmark-Methods-For-MNN
 ## Updata(21,Nov, 2023)
 We fixed bugs in some algorithms (**MoCoV2, NNCLR, MSF, SNCLR, SCE, CMSF**) which as you can see were hidden deeper but had little impact on performance. The bug is that the samples in the batch are updated in the queue during the symmetric computation of the loss function
 The fix for this bug is to change clip 1 to clip 2:
